@@ -7,6 +7,8 @@ const connectDB = require("./config/db");
 const rowRoutes = require("./routes/rowRoutes");
 const varietyRoutes = require("./routes/varietyRoutes");
 const blockRoutes = require("./routes/blockRoutes");
+const bunchRoutes = require("./routes/bunchRoutes");
+const workerRoutes = require("./routes/workerRoutes");
 
 const app = express();
 const port = 5000;
@@ -40,5 +42,7 @@ app.use(cors(corsOptions));
 app.use("/api", rowRoutes);
 app.use("/api/variety", varietyRoutes);
 app.use("/api/block", blockRoutes);
+app.use("/api/stocks", bunchRoutes);
+app.use("/api/workers", workerRoutes);
 
 module.exports = app;
