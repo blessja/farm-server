@@ -16,6 +16,15 @@ const workerSchema = new mongoose.Schema({
           day_of_week: { type: String }, // New field to track the day of the week
         },
       ],
+      daily_stock_entries: [
+        {
+          date: String, // Store date in "YYYY-MM-DD" format
+          row_number: String, // The row worked on
+          block_name: String, // The block associated with the row
+          stock_count: Number, // Number of stocks worked on that day
+          time_spent: Number, // Time spent on this task in minutes
+        },
+      ],
     },
   ],
 });
