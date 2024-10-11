@@ -79,9 +79,13 @@ exports.checkOutWorker = async (req, res) => {
     const endTime = new Date();
     const timeSpentInMinutes = (endTime - row.start_time) / 1000 / 60; // time in minutes
 
-    let calculatedStockCount = stockCount;
+    // If no stockCount is provided, assume the worker has worked all remaining stocks
+    let calculatedStockCount;
     if (typeof stockCount !== "number" || isNaN(stockCount)) {
-      calculatedStockCount = row.stock_count;
+      // Set stock count to all remaining stocks
+      calculatedStockCount = row.remaining_stock_count || row.stock_count;
+    } else {
+      calculatedStockCount = stockCount;
     }
 
     // Update remaining stocks based on the current checkout
