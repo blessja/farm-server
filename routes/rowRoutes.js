@@ -16,6 +16,11 @@ router.get(
   "/block/:blockName/row/:rowNumber/remaining-stocks",
   rowController.getRemainingStocksForRow
 );
+// get current check-in
+router.get(
+  "/worker/:workerID/current-checkin",
+  rowController.getCurrentCheckin
+);
 
 // get workers
 router.get("/workers", rowController.getWorkers);

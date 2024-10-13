@@ -193,6 +193,45 @@ exports.checkOutWorker = async (req, res) => {
   }
 };
 
+// Get the worker's current check-in
+exports.getCurrentCheckin = async (req, res) => {
+  const { workerID } = req.params;
+
+  try {
+    // Find all blocks that contain rows
+    const blocks = await Block.find();
+
+    let activeCheckins = [];
+
+    blocks.forEach((block) => {
+      block.rows.forEach((row) => {
+        // Check if the row is checked in by the worker and not yet checked out
+        if (row.worker_id === workerID && row.start_time && !row.time_spent) {
+          activeCheckins.push({
+            blockName: block.block_name,
+            rowNumber: row.row_number,
+            workerID: row.worker_id,
+            workerName: row.worker_name,
+            stockCount: row.stock_count,
+            startTime: row.start_time,
+            remainingStocks: row.remaining_stock_count || row.stock_count,
+          });
+        }
+      });
+    });
+
+    if (activeCheckins.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No active check-in found for this worker." });
+    }
+
+    return res.json(activeCheckins);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
 // Get row data by row number
 exports.getRowByNumber = async (req, res) => {
   try {
